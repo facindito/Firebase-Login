@@ -2,8 +2,9 @@ import { useState } from 'react'
 import { useAuth } from '../context/authContext'
 import { Link, useNavigate } from 'react-router-dom'
 import { ErrorMessage } from '../constants'
-import Layout from './Layout'
-import Form from './Form'
+import Layout from '../components/Layout'
+import Form from '../components/Form'
+import Alert from '../components/Alert'
 
 export default function Register() {
   const [user, setUser] = useState({
@@ -36,11 +37,7 @@ export default function Register() {
         <h1 className='text-xl font-semibold'>Create your account</h1>
       </div>
       <div>
-        {error && (
-          <div className='bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md mb-4 text-center'>
-            <span>{error}</span>
-          </div>
-        )}
+        {error && <Alert message={error} />}
         <Form handleSubmit={handleSubmit} handleChange={handleChange} textButton={'Create Account'} />
       </div>
       <div className='font-semibold'>
