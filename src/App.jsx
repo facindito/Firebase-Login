@@ -7,7 +7,7 @@ import { AuthProvider } from './context/authContext'
 
 function App() {
   return (
-    <div className='bg-slate-600 text-white h-screen grid justify-center items-center'>
+    <div className='bg-slate-600 text-gray-800 h-screen grid justify-center items-center overflow-hidden'>
       <AuthProvider>
         <Routes>
           <Route

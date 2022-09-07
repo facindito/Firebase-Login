@@ -1,6 +1,10 @@
 import { useState } from 'react'
 import { useAuth } from '../context/authContext'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { ErrorMessage } from '../constants'
+import ggle from '../assets/ggle.svg'
+import Form from './Form'
+import Layout from './Layout'
 
 export default function Login() {
   const [user, setUser] = useState({
@@ -9,7 +13,7 @@ export default function Login() {
   })
   const [error, setError] = useState()
 
-  const { login } = useAuth()
+  const { login, resetPassword } = useAuth()
   const navigate = useNavigate()
 
   const handleChange = ({ target: { name, value } }) => {
@@ -23,31 +27,52 @@ export default function Login() {
       await login(user.email, user.password)
       navigate('/')
     } catch (error) {
+      setError(ErrorMessage[error.code] || error.code)
+    }
+  }
+
+  const handleResetPassword = async () => {
+    if (!user.email) return setError('Please enter your email')
+    try {
+      console.log('hola')
+      await resetPassword(user.email)
+      setError('We sent you an email with a link to reset your password')
+    } catch (error) {
       setError(error.code)
     }
   }
 
   return (
-    <div>
-      <div>{error && <p>{error}</p>}</div>
-
-      <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
-        <div>
-          <label className='block' htmlFor='email'>
-            Email
-          </label>
-          <input className='text-black p-2' type='email' name='email' id='email' onChange={handleChange} />
-        </div>
-        <div>
-          <label className='block' htmlFor='password'>
-            Password
-          </label>
-          <input className='text-black p-2' type='password' name='password' id='password' onChange={handleChange} />
-        </div>
-        <div>
-          <button className='bg-slate-500 p-2'>Login</button>
-        </div>
-      </form>
-    </div>
+    <Layout>
+      <div className='w-full'>
+        <h1 className='text-xl font-semibold'>Welcome back!</h1>
+      </div>
+      <div>
+        {error && (
+          <div className='bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md mb-4 text-center'>
+            <span>{error}</span>
+          </div>
+        )}
+        <Form handleSubmit={handleSubmit} handleChange={handleChange} textButton={'Log In'}>
+          <button
+            type='button'
+            className='align-baseline font-semibold text-xs text-blue-400 hover:text-blue-600'
+            onClick={handleResetPassword}
+          >
+            Forgot Password?
+          </button>
+        </Form>
+      </div>
+      <div className='font-semibold'>
+        <span className='text-xs text-gray-400'>Don't have account? </span>
+        <Link to='/register' className='text-xs text-blue-500 hover:text-blue-600'>
+          Sign up
+        </Link>
+      </div>
+      <button className='w-full flex items-center justify-center gap-2 text-center border border-gray-400  hover:border-gray-600 py-1.5 px-3 rounded-md '>
+        <img src={ggle} alt='google' className='w-5' />
+        Login with Google
+      </button>
+    </Layout>
   )
 }
