@@ -13,7 +13,7 @@ export default function Home() {
   }
 
   return (
-    <div className='flex flex-col gap-4'>
+    <>
       {loading ? (
         <h1>Loading...</h1>
       ) : (
@@ -27,6 +27,6 @@ export default function Home() {
           </button>
         </Layout>
       )}
-    </div>
+    </>
   )
 }

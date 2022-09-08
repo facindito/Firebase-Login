@@ -6,15 +6,18 @@ import ggle from '../assets/ggle.svg'
 import Form from '../components/Form'
 import Layout from '../components/Layout'
 import Alert from '../components/Alert'
+import Modal from '../components/Modal'
+import ResetPassForm from '../components/ResetPassForm'
 
 export default function Login() {
   const [user, setUser] = useState({
     email: '',
     password: '',
   })
+  const [showModal, setShowModal] = useState(false)
   const [error, setError] = useState()
 
-  const { login, resetPassword, loginWithGoogle } = useAuth()
+  const { login, loginWithGoogle } = useAuth()
   const navigate = useNavigate()
 
   const handleChange = ({ target: { name, value } }) => {
@@ -24,7 +27,6 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
-    console.log('hola')
     try {
       if (!user.email) return setError('Please enter your email')
       if (!user.password) return setError('Please enter your password')
@@ -35,17 +37,6 @@ export default function Login() {
       console.log(error)
     }
   }
-
-  const handleResetPassword = async () => {
-    if (!user.email) return setError('Please enter your email')
-    try {
-      await resetPassword(user.email)
-      setError('We sent you an email with a link to reset your password')
-    } catch (error) {
-      setError(error.code)
-    }
-  }
-
   const handleGoogleLogin = async () => {
     try {
       await loginWithGoogle()
@@ -55,6 +46,10 @@ export default function Login() {
     }
   }
 
+  const handleClick = () => setShowModal(true)
+
+  const handleClose = () => setShowModal(false)
+
   return (
     <Layout>
       <div className='w-full'>
@@ -63,13 +58,20 @@ export default function Login() {
       <div>
         {error && <Alert message={error} />}
         <Form handleSubmit={handleSubmit} handleChange={handleChange} textButton={'Log In'}>
-          <button
-            type='button'
-            className='align-baseline font-semibold text-xs text-blue-400 hover:text-blue-600'
-            onClick={handleResetPassword}
-          >
-            Forgot Password?
-          </button>
+          <>
+            <button
+              type='button'
+              className='align-baseline font-semibold text-xs text-blue-400 hover:text-blue-600'
+              onClick={handleClick}
+            >
+              Forgot Password?
+            </button>
+            {showModal && (
+              <Modal onClose={handleClose}>
+                <ResetPassForm />
+              </Modal>
+            )}
+          </>
         </Form>
       </div>
       <div className='font-semibold'>
