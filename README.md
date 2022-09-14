@@ -21,7 +21,13 @@
 
 Descargar o clonar el repositorio
 
+Instalacion
+
 `npm install`
+
+Requisitos:
+
+- Reemplazar FIREBASE_CONFIG del archivo /firebase.js por firebaseConfig proporcionado por [Firebase](https://firebase.google.com/)
 
 Abrir navegador
 
