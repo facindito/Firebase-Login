@@ -8,12 +8,21 @@
 
 <img src="public/Login.png">
 
+## Tecnologías
+
+```
+- React js
+- Firebase
+- Tailwind
+- Formik
+```
+
 ## Instalación
 
-- Descargar o clonar el repositorio
+Descargar o clonar el repositorio
 
 `npm install`
 
-- Abrir navegador
+Abrir navegador
 
 `http://localhost:3000/`
