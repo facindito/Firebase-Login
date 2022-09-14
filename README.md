@@ -1,4 +1,4 @@
-<h1 aling="center">Login ~ Register | Firebase Authentication</h1>
+<h1 align="center">Login ~ Register | Firebase Authentication</h1>
 
 ## Descripción
 
