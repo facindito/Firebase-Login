@@ -1,4 +1,5 @@
 import banner from '../assets/banner.webp'
+
 export default function Layout({ children }) {
   return (
     <section className='flex bg-gray-200 rounded-md overflow-hidden'>

@@ -3,28 +3,19 @@ import { useAuth } from '../context/authContext'
 import { Link, useNavigate } from 'react-router-dom'
 import { ErrorMessage } from '../constants'
 import Layout from '../components/Layout'
-import Form from '../components/Form'
 import Alert from '../components/Alert'
+import RegisterForm from '../components/RegisterForm'
 
 export default function Register() {
-  const [user, setUser] = useState({
-    email: '',
-    password: '',
-  })
   const [error, setError] = useState()
 
   const { signup } = useAuth()
   const navigate = useNavigate()
 
-  const handleChange = ({ target: { name, value } }) => {
-    setUser({ ...user, [name]: value })
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+  const handleSubmit = async (values) => {
     setError('')
     try {
-      await signup(user.email, user.password)
+      await signup(values.email, values.password)
       navigate('/')
     } catch (error) {
       setError(ErrorMessage[error.code] || 'Internal error')
@@ -38,7 +29,7 @@ export default function Register() {
       </div>
       <div>
         {error && <Alert message={error} />}
-        <Form handleSubmit={handleSubmit} handleChange={handleChange} textButton={'Create Account'} />
+        <RegisterForm handleSubmit={handleSubmit} />
       </div>
       <div className='font-semibold'>
         <span className='text-xs text-gray-400'>Do you have an account? </span>
